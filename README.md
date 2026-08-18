@@ -52,7 +52,7 @@ Ver `.env.example`:
 
 ## Firebase (preparação)
 
-1. **Auth** → Sign-in method: habilitar **E-mail/Senha**; criar o usuário de `ADMIN_EMAIL` no Console (Auth → Users).
+1. **Auth** → Sign-in method: habilitar **E-mail/Senha**; criar o usuário de `ADMIN_EMAIL` no Console (Auth → Users). Em **E-mail/Senha**, **desabilitar o cadastro público** (desmarcar "Create accounts / criar contas") — só usuários criados no Console conseguem entrar.
 2. **Marcar o e-mail como verificado** — o Console não verifica e-mail de usuários criados manualmente, e o servidor exige `email_verified`:
    ```bash
    npm run firebase:verify
@@ -62,19 +62,25 @@ Ver `.env.example`:
    rules_version = '2';
    service cloud.firestore { match /databases/{database}/documents { match /{document=**} { allow read, write: if false; } } }
    ```
-4. **Storage** (leitura pública, escrita autenticada):
+4. **Firestore → Indexes**: criar os índices compostos (o erro de cada query fornece o link direto do Console):
+   - listagem pública: `artigos` `status` ASC, `atualizadoEm` DESC
+   - página do artigo: `artigos` `slug` ASC, `status` ASC
+5. **Storage** (leitura pública; escrita só pelo e-mail admin, imagens até 5 MB):
    ```
    rules_version = '2';
    service firebase.storage {
      match /b/{bucket}/o {
        match /artigos/{allPaths=**} {
          allow read: if true;
-         allow write: if request.auth != null;
+         allow write: if request.auth != null
+           && request.auth.token.email == 'psicologia@mariananora.com.br'
+           && request.resource.size < 5 * 1024 * 1024
+           && request.resource.contentType.matches('image/(jpeg|png|webp)');
        }
      }
    }
    ```
-5. Confirmar que `storageBucket` em `nuxt.config.ts` (`runtimeConfig.public.firebase`) é o bucket real do projeto (formato `.firebasestorage.app`).
+6. Confirmar que `storageBucket` em `nuxt.config.ts` (`runtimeConfig.public.firebase`) é o bucket real do projeto (formato `.firebasestorage.app`).
 
 ## Deploy (Vercel)
 
@@ -82,9 +88,17 @@ Ver `.env.example`:
 - Configurar as mesmas variáveis de ambiente (incluindo `FIREBASE_ADMIN_CREDENTIAL` com o JSON completo e `NUXT_PUBLIC_FIREBASE_API_KEY`).
 - Apontar o domínio `mariananora.com.br` (SSL automático).
 
+## Pós-go-live
+
+- Repetir os testes em produção: formulário (e-mail chega), admin (login, criar/publicar artigo com capa e imagem inline), páginas públicas.
+- Publicar o conteúdo inicial (2–3 artigos).
+- SEO: conferir título/descrição, `/robots.txt` e indexação (Google Search Console).
+- Testar mobile (formulário, menu, imagens) e performance.
+- Verificar os alertas de segurança do GitHub (Security → Alerts) no repo público.
+
 ## Estrutura
 
 - `app/` — frontend (páginas, componentes, composables, plugins)
-- `server/` — API Nitro (`/api/contato`, `/api/artigos*`, `/api/admin/artigos*`) e utils (`auth`, `mailer`, `sanitize`, `validate`, `firebase-admin`)
+- `server/` — API Nitro (`/api/contato`, `/api/artigos*`, `/api/admin/artigos*`, `/api/admin/leads`) e utils (`auth`, `mailer`, `sanitize`, `validate`, `firebase-admin`)
 - `shared/` — dados e tipos compartilhados (`site`, `especialidades`, `Article`/`Lead`)
 - `public/img/` — imagens locais; especialidades vêm do Unsplash (licença livre)
