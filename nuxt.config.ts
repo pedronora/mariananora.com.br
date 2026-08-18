@@ -45,7 +45,7 @@ export default defineNuxtConfig({
     firebaseAdminCredential: process.env.FIREBASE_ADMIN_CREDENTIAL || '',
     public: {
       firebase: {
-        apiKey: 'AIzaSyC_SBeM5Sfw_1PeWwWi_P1ND95YHuwIrxY',
+        apiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY || '',
         authDomain: 'piscomariana.firebaseapp.com',
         projectId: 'piscomariana',
         storageBucket: 'piscomariana.firebasestorage.app',
