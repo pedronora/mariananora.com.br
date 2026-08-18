@@ -31,6 +31,7 @@ npm run format:check # Prettier --check .
 - `CONTACT_TO` — destinatário dos formulários.
 - `ADMIN_EMAIL` — único e-mail com permissão de admin.
 - `FIREBASE_ADMIN_CREDENTIAL` — JSON da service account; **obrigatório para tudo que acessa Firestore** (`/api/artigos*`, `/api/admin/*`). Sem ela as rotas retornam 500. No local pode-se usar `GOOGLE_APPLICATION_CREDENTIALS`.
+- `NUXT_PUBLIC_FIREBASE_API_KEY` — Web API key do Firebase (SDK cliente). Não é segredo (fica no bundle do navegador) — **não commitá-la**; no Vercel, adicionar em Production/Preview/Development, senão o Firebase não inicializa.
 
 ## Gotchas
 

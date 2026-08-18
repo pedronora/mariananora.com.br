@@ -22,7 +22,7 @@ Site institucional da psicóloga Mariana Nora (Florianópolis/SC), reconstruído
 ```bash
 nvm use
 npm install          # .npmrc já define legacy-peer-deps=true
-cp .env.example .env # preencher SMTP_USER, SMTP_PASS, ADMIN_EMAIL, FIREBASE_ADMIN_CREDENTIAL
+cp .env.example .env # preencher SMTP_USER, SMTP_PASS, ADMIN_EMAIL, FIREBASE_ADMIN_CREDENTIAL, NUXT_PUBLIC_FIREBASE_API_KEY
 npm run dev
 ```
 
@@ -48,6 +48,7 @@ Ver `.env.example`:
 - `CONTACT_TO` — destinatário dos formulários (default `psicologia@mariananora.com.br`)
 - `ADMIN_EMAIL` — único e-mail com permissão de admin
 - `FIREBASE_ADMIN_CREDENTIAL` — JSON da service account em **uma única linha** (ou base64); obrigatório em produção, sem ele `/api/artigos*` e `/api/admin/*` retornam 500. No local, `GOOGLE_APPLICATION_CREDENTIALS` serve como alternativa.
+- `NUXT_PUBLIC_FIREBASE_API_KEY` — Web API key do Firebase (SDK cliente). Pública por design, mas **não commitar** (secret scanning do GitHub); adicionar em Production/Preview/Development na Vercel. Recomendado restringir por domínio no console.
 
 ## Firebase (preparação)
 
@@ -78,7 +79,7 @@ Ver `.env.example`:
 ## Deploy (Vercel)
 
 - Importar o repositório; definir **Node 24** no projeto (o preset vercel usa `Set.prototype.difference`, exige 22+).
-- Configurar as mesmas variáveis de ambiente (incluindo `FIREBASE_ADMIN_CREDENTIAL` com o JSON completo).
+- Configurar as mesmas variáveis de ambiente (incluindo `FIREBASE_ADMIN_CREDENTIAL` com o JSON completo e `NUXT_PUBLIC_FIREBASE_API_KEY`).
 - Apontar o domínio `mariananora.com.br` (SSL automático).
 
 ## Estrutura
