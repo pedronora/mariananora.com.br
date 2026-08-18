@@ -1,0 +1,11 @@
+node_modules
+.nuxt
+.nitro
+.output
+.data
+.cache
+dist
+.vercel
+coverage
+*.min.js
+package-lock.json

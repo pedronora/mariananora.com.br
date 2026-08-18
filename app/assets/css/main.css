@@ -1,0 +1,65 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-50: #f6f4f1;
+  --color-brand-100: #e9e3dc;
+  --color-brand-200: #d3c6b9;
+  --color-brand-300: #b9a48f;
+  --color-brand-400: #a0856b;
+  --color-brand-500: #8a6f55;
+  --color-brand-600: #715846;
+  --color-brand-700: #5c4839;
+  --color-brand-800: #4b3c31;
+  --color-brand-900: #3f342b;
+  --color-brand-950: #221b15;
+
+  --color-accent-50: #e9f6f2;
+  --color-accent-100: #ccece3;
+  --color-accent-200: #9ad9c9;
+  --color-accent-300: #63c0aa;
+  --color-accent-400: #38a68d;
+  --color-accent-500: #1c9479;
+  --color-accent-600: #10866f;
+  --color-accent-700: #0e6a58;
+  --color-accent-800: #0e5548;
+  --color-accent-900: #0d463c;
+  --color-accent-950: #072a24;
+}
+
+body {
+  @apply bg-brand-50 text-brand-900 antialiased;
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  @apply text-balance;
+}
+
+@utility container-site {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors;
+}
+
+@utility btn-primary {
+  @apply btn bg-accent-600 text-white hover:bg-accent-700;
+}
+
+@utility btn-ghost {
+  @apply btn border border-brand-300 text-brand-700 hover:border-brand-500 hover:text-brand-900;
+}
+
+@utility input-field {
+  @apply w-full rounded-lg border border-brand-200 bg-white px-4 py-3 text-brand-900 placeholder:text-brand-300 focus:border-accent-500 focus:outline-none focus:ring-2 focus:ring-accent-200;
+}
+
+@utility label-field {
+  @apply mb-1.5 block text-sm font-medium text-brand-700;
+}
