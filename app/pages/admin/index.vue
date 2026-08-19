@@ -56,7 +56,10 @@ function statusLabel(status: string) {
       </div>
       <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div class="relative">
-          <AppIcon name="search" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-brand-400" />
+          <AppIcon
+            name="search"
+            class="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-brand-400"
+          />
           <input
             v-model="query"
             type="text"

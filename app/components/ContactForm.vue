@@ -63,14 +63,14 @@ async function submit() {
       v-if="success"
       class="flex items-start gap-3 rounded-xl border border-accent-200 bg-accent-50 p-4 text-sm text-accent-800"
     >
-      <AppIcon name="check" class="mt-0.5 shrink-0 text-accent-600" />
+      <AppIcon name="check" class="mt-0.5 size-5 shrink-0 text-accent-600" />
       Mensagem enviada com sucesso! Retornarei o contato em breve.
     </div>
     <div
       v-if="error"
       class="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
     >
-      <AppIcon name="close" class="mt-0.5 shrink-0" />
+      <AppIcon name="close" class="mt-0.5 size-5 shrink-0" />
       {{ error }}
     </div>
 
@@ -137,7 +137,7 @@ async function submit() {
     </div>
 
     <button type="submit" class="btn-primary w-full sm:w-auto" :disabled="submitting">
-      <AppIcon v-if="submitting" name="clock" class="animate-spin" />
+      <AppIcon v-if="submitting" name="clock" class="size-5 animate-spin" />
       <AppIcon v-else name="send" />
       {{ submitting ? 'Enviando...' : 'Enviar mensagem' }}
     </button>

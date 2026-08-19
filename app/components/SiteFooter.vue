@@ -40,7 +40,7 @@ const navLinks = [
               rel="noopener"
               class="flex items-start gap-2 hover:text-white"
             >
-              <AppIcon name="mapPin" class="mt-0.5 shrink-0 text-accent-400" />
+              <AppIcon name="mapPin" class="mt-0.5 size-5 shrink-0 text-accent-400" />
               <span>
                 <span class="block font-medium text-brand-100">{{ site.address.name }}</span>
                 {{ site.address.street }}<br />{{ site.address.district }} — {{ site.address.city }}
@@ -49,12 +49,12 @@ const navLinks = [
           </li>
           <li>
             <a :href="site.phoneHref" class="flex items-center gap-2 hover:text-white">
-              <AppIcon name="phone" class="shrink-0 text-accent-400" /> {{ site.phone }}
+              <AppIcon name="phone" class="size-5 shrink-0 text-accent-400" /> {{ site.phone }}
             </a>
           </li>
           <li>
             <a :href="`mailto:${site.email}`" class="flex items-center gap-2 hover:text-white">
-              <AppIcon name="mail" class="shrink-0 text-accent-400" /> {{ site.email }}
+              <AppIcon name="mail" class="size-5 shrink-0 text-accent-400" /> {{ site.email }}
             </a>
           </li>
         </ul>
@@ -67,7 +67,7 @@ const navLinks = [
         </p>
         <ul class="space-y-2 text-sm">
           <li v-for="h in site.hours" :key="h.days" class="flex items-center gap-2 text-brand-300">
-            <AppIcon name="clock" class="shrink-0 text-accent-400" />
+            <AppIcon name="clock" class="size-5 shrink-0 text-accent-400" />
             <span
               ><span class="text-brand-100">{{ h.days }}:</span> {{ h.time }}</span
             >

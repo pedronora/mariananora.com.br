@@ -37,7 +37,13 @@ const props = defineProps<{ name: keyof typeof icons & string; class?: string }>
 </script>
 
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5" aria-hidden="true">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    :class="props.class ?? 'size-5'"
+    aria-hidden="true"
+  >
     <path :d="icons[props.name]" />
   </svg>
 </template>
