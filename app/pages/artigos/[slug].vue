@@ -14,6 +14,8 @@ const html = computed(() => artigo.value?.conteudo ?? '')
 useSeoMeta({
   title: () => (artigo.value ? `${artigo.value.titulo} — Mariana Nora` : 'Artigo'),
   description: () => artigo.value?.resumo ?? '',
+  ogTitle: () => (artigo.value ? `${artigo.value.titulo} — Mariana Nora` : site.description),
+  ogDescription: () => artigo.value?.resumo ?? site.description,
   ogType: 'article',
   ogUrl: () => `${site.domain}/artigos/${slug}`,
   ogImage: () => artigo.value?.capa || undefined,

@@ -19,8 +19,10 @@ const loading = ref(false)
 const loadingMore = ref(false)
 const error = ref('')
 const selected = ref<LeadWithId | null>(null)
+const query = ref('')
+let debounceTimer: ReturnType<typeof setTimeout> | null = null
 
-async function load(reset = false) {
+async function load(reset = false, q = query.value.trim()) {
   error.value = ''
   if (reset) {
     loading.value = true
@@ -28,8 +30,11 @@ async function load(reset = false) {
     loadingMore.value = true
   }
   try {
-    const query = reset ? '' : nextAfter.value ? `?after=${encodeURIComponent(nextAfter.value)}` : ''
-    const page: LeadsPage = await adminFetch(`/api/admin/leads${query}`)
+    const params = new URLSearchParams()
+    if (q) params.set('q', q)
+    if (!reset && nextAfter.value) params.set('after', nextAfter.value)
+    const qs = params.toString()
+    const page: LeadsPage = await adminFetch(`/api/admin/leads${qs ? `?${qs}` : ''}`)
     leads.value = reset ? page.leads : [...(leads.value ?? []), ...page.leads]
     nextAfter.value = page.nextAfter
   } catch {
@@ -48,6 +53,19 @@ onMounted(() => {
   document.addEventListener('keydown', onKey)
   onUnmounted(() => document.removeEventListener('keydown', onKey))
 })
+
+function clearSearch() {
+  if (debounceTimer) clearTimeout(debounceTimer)
+  query.value = ''
+  load(true, '')
+}
+
+if (import.meta.client) {
+  watch(query, (val) => {
+    if (debounceTimer) clearTimeout(debounceTimer)
+    debounceTimer = setTimeout(() => load(true, val.trim()), 300)
+  })
+}
 
 function assuntoLabel(assunto: string) {
   return ASSUNTOS[assunto] ?? assunto
@@ -68,9 +86,30 @@ function closeModal() {
 
 <template>
   <div>
-    <div class="mb-8">
-      <h1 class="text-2xl font-bold">Mensagens</h1>
-      <p class="text-sm text-brand-500">Mensagens recebidas pelo formulário de contato.</p>
+    <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h1 class="text-2xl font-bold">Mensagens</h1>
+        <p class="text-sm text-brand-500">Mensagens recebidas pelo formulário de contato.</p>
+      </div>
+      <div class="relative w-full sm:w-72">
+        <AppIcon name="search" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-brand-400" />
+        <input
+          v-model="query"
+          type="text"
+          placeholder="Buscar mensagens..."
+          aria-label="Buscar mensagens"
+          class="input-field w-full pl-9 pr-9"
+        />
+        <button
+          v-if="query"
+          type="button"
+          class="absolute right-2.5 top-1/2 grid size-5 -translate-y-1/2 place-items-center rounded-full text-brand-400 hover:bg-brand-100 hover:text-brand-700"
+          aria-label="Limpar busca"
+          @click="clearSearch"
+        >
+          <AppIcon name="close" class="size-3" />
+        </button>
+      </div>
     </div>
 
     <p v-if="error" class="text-brand-600">{{ error }}</p>
@@ -104,7 +143,9 @@ function closeModal() {
           </li>
         </ul>
         <p v-if="leads?.length === 0" class="p-8 text-center text-sm text-brand-500">
-          Nenhuma mensagem recebida ainda.
+          {{
+            query.trim() ? `Nenhuma mensagem encontrada para "${query.trim()}".` : 'Nenhuma mensagem recebida ainda.'
+          }}
         </p>
       </div>
 

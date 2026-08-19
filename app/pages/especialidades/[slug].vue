@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { site } from '#shared/utils/site'
+
 const route = useRoute()
 const slug = route.params.slug as string
 const esp = especialidades.find((e) => e.slug === slug)
@@ -12,7 +14,10 @@ const imageIndex = { 'orientacao-profissional': 0, 'avaliacao-neuropsicologica':
 useSeoMeta({
   title: `${esp.title} — Mariana Nora`,
   description: esp.description,
+  ogTitle: `${esp.title} — Mariana Nora`,
+  ogDescription: esp.description,
   ogType: 'website',
+  ogUrl: `${site.domain}/especialidades/${slug}`,
 })
 </script>
 
