@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { site } from '#shared/utils/site'
 const route = useRoute()
 const slug = route.params.slug as string
 
@@ -14,6 +15,8 @@ useSeoMeta({
   title: () => (artigo.value ? `${artigo.value.titulo} — Mariana Nora` : 'Artigo'),
   description: () => artigo.value?.resumo ?? '',
   ogType: 'article',
+  ogUrl: () => `${site.domain}/artigos/${slug}`,
+  ogImage: () => artigo.value?.capa || undefined,
 })
 
 function formatDate(iso: string) {

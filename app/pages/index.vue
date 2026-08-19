@@ -6,7 +6,6 @@ useSeoMeta({
   ogDescription: site.description,
   ogType: 'website',
   ogUrl: site.domain,
-  ogImage: '/img/retrato.jpg',
 })
 </script>
 
