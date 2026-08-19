@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
-  modules: ['@nuxt/image', '@nuxt/eslint'],
+  modules: ['@nuxt/image', '@nuxt/eslint', '@vercel/speed-insights'],
   css: ['~/assets/css/main.css'],
 
   routeRules: {
@@ -68,6 +68,31 @@ export default defineNuxtConfig({
           content:
             'Psicóloga Mariana Nora, CRP 12/15000. Psicoterapia presencial e online, avaliação neuropsicológica e orientação profissional em Florianópolis/SC.',
         },
+        { property: 'og:site_name', content: 'Psicóloga Mariana Nora' },
+        { property: 'og:locale', content: 'pt_BR' },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: 'https://mariananora.com.br/' },
+        {
+          property: 'og:title',
+          content: 'Psicóloga Mariana Nora — Psicoterapia em Florianópolis',
+        },
+        {
+          property: 'og:description',
+          content:
+            'Psicóloga Mariana Nora, CRP 12/15000. Psicoterapia presencial e online, avaliação neuropsicológica e orientação profissional em Florianópolis/SC.',
+        },
+        { property: 'og:image', content: 'https://mariananora.com.br/img/og-default.jpg' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        {
+          name: 'twitter:title',
+          content: 'Psicóloga Mariana Nora — Psicoterapia em Florianópolis',
+        },
+        {
+          name: 'twitter:description',
+          content:
+            'Psicóloga Mariana Nora, CRP 12/15000. Psicoterapia presencial e online, avaliação neuropsicológica e orientação profissional em Florianópolis/SC.',
+        },
+        { name: 'twitter:image', content: 'https://mariananora.com.br/img/og-default.jpg' },
       ],
       link: [
         { rel: 'icon', type: 'image/png', href: '/favicon.png' },
