@@ -87,18 +87,21 @@ Ver `.env.example`:
 - Importar o repositório; definir **Node 24** no projeto (o preset vercel usa `Set.prototype.difference`, exige 22+).
 - Configurar as mesmas variáveis de ambiente (incluindo `FIREBASE_ADMIN_CREDENTIAL` com o JSON completo e `NUXT_PUBLIC_FIREBASE_API_KEY`).
 - Apontar o domínio `mariananora.com.br` (SSL automático).
+- **Speed Insights**: o módulo `@vercel/speed-insights` já está no projeto; habilitar em Vercel → Project Settings → Analytics.
 
 ## Pós-go-live
 
 - Repetir os testes em produção: formulário (e-mail chega), admin (login, criar/publicar artigo com capa e imagem inline), páginas públicas.
 - Publicar o conteúdo inicial (2–3 artigos).
-- SEO: conferir título/descrição, `/robots.txt` e indexação (Google Search Console).
+- SEO: OG tags (`og:title`/`og:description`/`og:url`/`og:image`) já implementadas nas páginas; re-scrapear as prévias de compartilhamento (WhatsApp/opengraph.xyz — testar com `?v=` para furar o cache) e conferir `/robots.txt` e indexação (Google Search Console).
 - Testar mobile (formulário, menu, imagens) e performance.
 - Verificar os alertas de segurança do GitHub (Security → Alerts) no repo público.
 
 ## Estrutura
 
 - `app/` — frontend (páginas, componentes, composables, plugins)
-- `server/` — API Nitro (`/api/contato`, `/api/artigos*`, `/api/admin/artigos*`, `/api/admin/leads`) e utils (`auth`, `mailer`, `sanitize`, `validate`, `firebase-admin`)
+- `server/` — API Nitro (`/api/contato`, `/api/artigos*` com `?q` para busca, `/api/admin/artigos*`, `/api/admin/leads`) e utils (`auth`, `mailer`, `sanitize`, `validate`, `search`, `firebase-admin`)
 - `shared/` — dados e tipos compartilhados (`site`, `especialidades`, `Article`/`Lead`)
 - `public/img/` — imagens locais; especialidades vêm do Unsplash (licença livre)
+
+A **busca** (`?q`) é feita em memória no Nitro (`server/utils/search.ts`, case-insensitive, casa em título/resumo/autor/slug/conteúdo sem tags) nas listagens de artigos pública e admin e nas mensagens do admin.

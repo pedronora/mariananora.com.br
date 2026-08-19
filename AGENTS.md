@@ -8,7 +8,7 @@ Site institucional da psicóloga Mariana Nora (mariananora.com.br), reconstruíd
 - Frontend em `app/` (Nuxt 4 usa `app/`, não pasta raiz), backend em `server/` (Nitro). `shared/` tem utils/ tipos auto-importados nos dois lados (ex.: `site`, `especialidades`, tipos `Article`/`Lead`).
 - **Firebase**: SDK web no cliente (config em `runtimeConfig.public.firebase`, inicializada em `app/plugins/firebase.client.ts`); `firebase-admin` no servidor (`server/utils/firebase-admin.ts`). Coleções Firestore: `leads` (formulário) e `artigos`. Storage: capa dos artigos em `artigos/*` e imagens do conteúdo em `artigos/inline/*` (upload via `app/composables/useUpload.ts`).
 - **E-mail**: Nodemailer → SMTP Gmail (`server/utils/mailer.ts`). Envia para `CONTACT_TO` (default `psicologia@mariananora.com.br`).
-- **Admin**: `/admin/**` com `ssr: false` (routeRules). Login via Firebase Auth (email/senha), autorização no servidor exige `ADMIN_EMAIL` (verifica token + e-mail verificado).
+- **Admin**: `/admin/**` com `ssr: false` (routeRules). Login via Firebase Auth (email/senha), autorização no servidor exige `ADMIN_EMAIL` (verifica token + e-mail verificado). Páginas: artigos (`admin/index.vue` + editor em `editor*.vue`) e mensagens do formulário (`admin/leads.vue`, tabela + modal + "Carregar mais", paginação por cursor via `nextAfter`). Todos os endpoints de listagem aceitam `?q` para busca em memória.
 
 ## Comandos
 
@@ -19,6 +19,7 @@ npm run lint         # ESLint (flat config, @nuxt/eslint-config + prettier)
 npm run lint:fix     # ESLint com --fix
 npm run format       # Prettier --write .
 npm run format:check # Prettier --check .
+npm run firebase:verify # marca o e-mail do admin como verificado (uma única vez, após criar o usuário)
 ```
 
 `npm install` funciona normalmente graças ao `.npmrc` com `legacy-peer-deps=true` (workaround de bug do npm).
@@ -42,6 +43,9 @@ npm run format:check # Prettier --check .
 - **Auto-import de componentes**: `admin/ArticleEditor.vue` é registrado como `AdminArticleEditor` (prefixo do diretório) — as páginas `app/pages/admin/editor*.vue` usam `<AdminArticleEditor />`. Usar o nome errado (`<ArticleEditor />`) faz o template cair em `resolveComponent` e o componente **não entra no bundle** (bug silencioso já encontrado uma vez).
 - **Máscara de telefone** no formulário (`ContactForm.vue`): formatação progressiva `(00) 00000-0000` via `@input` (troca o `v-model` por `:value` + handler). Ao editar, só mexa ali.
 - Formulário de contato tem rate-limit em memória (Map por IP) — reseta entre instâncias serverless.
+- **`AppIcon.vue`**: o componente aplica a classe recebida via `:class="props.class ?? 'size-5'"`. Sempre passar um `size-N` (ex.: `size-4`, `size-5`) em `<AppIcon class="...">`; sem classe, o default é `size-5`. Um bug antigo (já corrigido) declarava `class` como prop sem usá-la, o que engolia todas as classes passadas — a lupa da busca ficava acima do input.
+- **Busca em memória**: `server/utils/search.ts` (`stripHtml` + `matchesQuery`) filtra artigos/mensagens por `?q` (case-insensitive; no conteúdo, só em texto sem tags HTML). UI: inputs com debounce de 300 ms em `app/pages/artigos/index.vue`, `admin/index.vue` e `admin/leads.vue`. Em `leads`, com `q` a paginação vira por posição (cap 200) mantendo `{ leads, nextAfter }`.
+- **SEO**: `useSeoMeta` só emite `og:title`/`og:description` se `ogTitle`/`ogDescription` forem passados explicitamente — sem eles, as prévias de compartilhamento caem para o default do site (bug corrigido nas 6 páginas públicas). Sempre setar `ogTitle`, `ogDescription` e `ogUrl` (`site.domain` de `shared/utils/site.ts`).
 
 ## Referência de conteúdo
 
