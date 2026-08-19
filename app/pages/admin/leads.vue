@@ -92,7 +92,10 @@ function closeModal() {
         <p class="text-sm text-brand-500">Mensagens recebidas pelo formulário de contato.</p>
       </div>
       <div class="relative w-full sm:w-72">
-        <AppIcon name="search" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-brand-400" />
+        <AppIcon
+          name="search"
+          class="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-brand-400"
+        />
         <input
           v-model="query"
           type="text"
@@ -157,7 +160,7 @@ function closeModal() {
           :disabled="loadingMore"
           @click="load(false)"
         >
-          <AppIcon v-if="loadingMore" name="clock" class="animate-spin" />
+          <AppIcon v-if="loadingMore" name="clock" class="size-5 animate-spin" />
           {{ loadingMore ? 'Carregando...' : 'Carregar mais 10' }}
         </button>
       </div>

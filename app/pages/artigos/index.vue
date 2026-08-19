@@ -60,30 +60,37 @@ if (import.meta.client) {
 
 <template>
   <div class="container-site py-16 sm:py-20">
-    <div class="mb-8 max-w-2xl">
-      <h1 class="text-3xl font-bold sm:text-4xl">Artigos</h1>
-      <p class="mt-3 text-brand-600">Textos e reflexões sobre saúde mental, psicoterapia e desenvolvimento pessoal.</p>
-    </div>
+    <div class="mb-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+      <div class="max-w-2xl">
+        <h1 class="text-3xl font-bold sm:text-4xl">Artigos</h1>
+        <p class="mt-3 text-brand-600">
+          Textos e reflexões sobre saúde mental, psicoterapia e desenvolvimento pessoal.
+        </p>
+      </div>
 
-    <div class="relative mb-8 max-w-md">
-      <AppIcon name="search" class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-400" />
-      <input
-        v-model="query"
-        type="text"
-        enterkeyhint="search"
-        placeholder="Buscar artigos..."
-        aria-label="Buscar artigos"
-        class="input-field w-full pl-11 pr-10"
-      />
-      <button
-        v-if="query"
-        type="button"
-        class="absolute right-3 top-1/2 grid size-6 -translate-y-1/2 place-items-center rounded-full text-brand-400 hover:bg-brand-100 hover:text-brand-700"
-        aria-label="Limpar busca"
-        @click="clearSearch"
-      >
-        <AppIcon name="close" class="size-3.5" />
-      </button>
+      <div class="relative w-full md:w-96">
+        <AppIcon
+          name="search"
+          class="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-brand-400"
+        />
+        <input
+          v-model="query"
+          type="text"
+          enterkeyhint="search"
+          placeholder="Buscar artigos..."
+          aria-label="Buscar artigos"
+          class="input-field w-full pl-9 pr-10"
+        />
+        <button
+          v-if="query"
+          type="button"
+          class="absolute right-2.5 top-1/2 grid size-5 -translate-y-1/2 place-items-center rounded-full text-brand-400 hover:bg-brand-100 hover:text-brand-700"
+          aria-label="Limpar busca"
+          @click="clearSearch"
+        >
+          <AppIcon name="close" class="size-3" />
+        </button>
+      </div>
     </div>
 
     <p v-if="error" class="text-brand-600">Não foi possível carregar os artigos. Tente novamente mais tarde.</p>
