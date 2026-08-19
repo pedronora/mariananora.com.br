@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { site } from '#shared/utils/site'
+
 definePageMeta({ title: 'Especialidades' })
 
 useSeoMeta({
   title: 'Especialidades — Mariana Nora',
   description:
     'Orientação profissional, avaliação neuropsicológica e psicoterapia presencial e online em Florianópolis.',
+  ogTitle: 'Especialidades — Mariana Nora',
+  ogDescription:
+    'Orientação profissional, avaliação neuropsicológica e psicoterapia presencial e online em Florianópolis.',
+  ogUrl: `${site.domain}/especialidades`,
 })
 </script>
 

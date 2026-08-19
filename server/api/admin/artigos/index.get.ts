@@ -1,8 +1,19 @@
+import { matchesQuery, stripHtml } from '../../../utils/search'
+
 export default defineEventHandler(async (event) => {
   await requireAdmin(event)
+  const q = (getQuery(event).q ?? '').toString().trim()
+
   const snapshot = await useFirestore().collection('artigos').orderBy('atualizadoEm', 'desc').get()
 
-  return snapshot.docs.map((doc) => ({
+  const docs = q
+    ? snapshot.docs.filter((doc) => {
+        const data = doc.data()
+        return matchesQuery([data.titulo, data.resumo, data.slug, stripHtml(data.conteudo)], q)
+      })
+    : snapshot.docs
+
+  return docs.map((doc) => ({
     id: doc.id,
     slug: doc.data().slug,
     titulo: doc.data().titulo,

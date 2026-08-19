@@ -1,10 +1,15 @@
 <script setup lang="ts">
+import { site } from '#shared/utils/site'
+
 definePageMeta({ title: 'Contato' })
 
 useSeoMeta({
   title: 'Contato — Mariana Nora',
   description: 'Entre em contato com a psicóloga Mariana Nora para agendar sua consulta em Florianópolis ou online.',
+  ogTitle: 'Contato — Mariana Nora',
+  ogDescription: 'Entre em contato com a psicóloga Mariana Nora para agendar sua consulta em Florianópolis ou online.',
   ogType: 'website',
+  ogUrl: `${site.domain}/contato`,
 })
 </script>
 

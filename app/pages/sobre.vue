@@ -1,11 +1,17 @@
 <script setup lang="ts">
+import { site } from '#shared/utils/site'
+
 definePageMeta({ title: 'Sobre' })
 
 useSeoMeta({
   title: 'Sobre — Mariana Nora',
   description:
     'Conheça a trajetória da psicóloga Mariana Macedo Nora, graduada pela UNISUL e mestre pela UFSC, atuante em Florianópolis.',
+  ogTitle: 'Sobre — Mariana Nora',
+  ogDescription:
+    'Conheça a trajetória da psicóloga Mariana Macedo Nora, graduada pela UNISUL e mestre pela UFSC, atuante em Florianópolis.',
   ogType: 'website',
+  ogUrl: `${site.domain}/sobre`,
 })
 </script>
 
