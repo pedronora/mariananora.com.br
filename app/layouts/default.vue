@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Analytics } from '@vercel/analytics/nuxt/runtime'
-
 const route = useRoute()
 
 useHead({
@@ -17,6 +15,5 @@ useHead({
     </main>
     <SiteFooter />
     <WhatsAppButton />
-    <Analytics />
   </div>
 </template>
