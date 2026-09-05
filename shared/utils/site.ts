@@ -23,8 +23,8 @@ export const site = {
   ],
   crp: 'CRP 12/15000',
   education: [
-    'Graduada em Psicologia pela Universidade do Sul de Santa Catarina – UNISUL',
-    'Mestre pela Universidade Federal de Santa Catarina – UFSC',
+    { institution: 'UNISUL', degree: 'Graduada em Psicologia pela Universidade do Sul de Santa Catarina – UNISUL' },
+    { institution: 'UFSC', degree: 'Mestre pela Universidade Federal de Santa Catarina – UFSC' },
   ],
 } as const
 

@@ -50,13 +50,13 @@ useSeoMeta({
         <ul class="mt-4 space-y-3">
           <li
             v-for="edu in site.education"
-            :key="edu"
+            :key="edu.institution"
             class="flex items-start gap-3 rounded-xl border border-brand-200 bg-white p-4"
           >
             <span class="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-accent-100 text-accent-700"
               ><AppIcon name="check" class="size-4"
             /></span>
-            <span class="text-sm text-brand-700">{{ edu }}</span>
+            <span class="text-sm text-brand-700">{{ edu.degree }}</span>
           </li>
         </ul>
 
