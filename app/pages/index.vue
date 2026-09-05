@@ -124,9 +124,13 @@ useSeoMeta({
           <NuxtLink to="/sobre" class="btn-ghost mt-6">Leia mais sobre mim</NuxtLink>
         </div>
         <div class="grid grid-cols-2 gap-4">
-          <div v-for="edu in site.education" :key="edu" class="rounded-2xl border border-brand-200 bg-brand-50 p-6">
-            <p class="font-semibold text-brand-900">UNISUL / UFSC</p>
-            <p class="mt-2 text-sm text-brand-600">{{ edu }}</p>
+          <div
+            v-for="edu in site.education"
+            :key="edu.institution"
+            class="rounded-2xl border border-brand-200 bg-brand-50 p-6"
+          >
+            <p class="font-semibold text-brand-900">{{ edu.institution }}</p>
+            <p class="mt-2 text-sm text-brand-600">{{ edu.degree }}</p>
           </div>
         </div>
       </div>
