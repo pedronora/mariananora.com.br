@@ -35,6 +35,10 @@ export function sanitizeContent(html: string): string {
         }
         return { tagName, attribs }
       },
+      img: (tagName, attribs) => {
+        if (attribs.loading === 'eager') return { tagName, attribs }
+        return { tagName, attribs: { ...attribs, loading: 'lazy' } }
+      },
     },
   })
 }
