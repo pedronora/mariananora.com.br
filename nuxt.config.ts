@@ -8,6 +8,11 @@ export default defineNuxtConfig({
   modules: ['@nuxt/image', '@nuxt/eslint', '@vercel/speed-insights'],
   css: ['~/assets/css/main.css'],
 
+  image: {
+    quality: 80,
+    domains: ['firebasestorage.googleapis.com'],
+  },
+
   routeRules: {
     '/admin/**': {
       ssr: false,

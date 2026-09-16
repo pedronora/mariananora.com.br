@@ -41,6 +41,7 @@ useSeoMeta({
             <NuxtImg
               src="/img/retrato.jpg"
               alt="Psicóloga Mariana Nora"
+              sizes="(max-width: 1024px) 100vw, 50vw"
               class="relative aspect-[4/3] w-full rounded-3xl object-cover shadow-2xl"
             />
           </div>
@@ -98,6 +99,7 @@ useSeoMeta({
             <NuxtImg
               :src="`/img/especialidade-${['orientacao', 'avaliacao', 'psicoterapia'][i]}.jpg`"
               :alt="esp.title"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </div>
@@ -151,6 +153,7 @@ useSeoMeta({
           <NuxtImg
             src="/img/agenda.jpg"
             alt="Agende sua consulta"
+            sizes="(max-width: 1024px) 100vw, 50vw"
             class="aspect-[4/3] w-full rounded-3xl object-cover shadow-xl"
           />
         </div>
@@ -170,6 +173,7 @@ useSeoMeta({
           :key="n"
           :src="`/img/consultorio${n}.jpg`"
           :alt="`Consultório — foto ${n}`"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           class="aspect-[5/3] w-full rounded-2xl object-cover"
         />
       </div>

@@ -52,6 +52,7 @@ useSeoMeta({
       <NuxtImg
         :src="`/img/especialidade-${['orientacao', 'avaliacao', 'psicoterapia'][imageIndex]}.jpg`"
         :alt="esp.title"
+        sizes="(max-width: 1024px) 100vw, 50vw"
         class="aspect-[4/3] w-full rounded-3xl object-cover shadow-lg"
       />
     </div>
