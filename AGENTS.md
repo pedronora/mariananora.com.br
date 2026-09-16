@@ -19,10 +19,25 @@ npm run lint         # ESLint (flat config, @nuxt/eslint-config + prettier)
 npm run lint:fix     # ESLint com --fix
 npm run format       # Prettier --write .
 npm run format:check # Prettier --check .
+npm test         # testes unitários (Vitest)
+npm test:watch   # Vitest em modo watch
 npm run firebase:verify # marca o e-mail do admin como verificado (uma única vez, após criar o usuário)
 ```
 
 `npm install` funciona normalmente graças ao `.npmrc` com `legacy-peer-deps=true` (workaround de bug do npm).
+
+## Fluxo de trabalho GitHub
+
+O projeto segue o **GitHub Flow** com **Protected Branch** + **Pull Request Workflow**: a branch `main` é protegida (sem push direto), todo trabalho acontece em branches de feature/correção e entra via **Pull Request** (idealmente com review). Vincular PR a issue quando houver; PRs devem passar no `npm run lint` e `npm run build` antes do merge.
+
+**CI**: `.github/workflows/ci.yml` roda em PRs (base `main`) e pushes para `main` — `npm ci`, `lint`, `format:check`, `npm test` (Vitest em `tests/`) e `npm run build`. Falha em qualquer etapa bloqueia o merge.
+
+### Organização de commits e branches
+
+- Cada commit deve conter um conjunto **coeso** de alterações relacionadas a uma única finalidade (ex.: uma feature, um bugfix, um refactor). Evite misturar mudanças não relacionadas em um mesmo commit.
+- Cada branch deve corresponder a um escopo de trabalho **bem definido**. Se, durante o desenvolvimento, surgirem alterações que não pertencem ao escopo da branch atual, crie uma **nova branch** e commits específicos para tratá-las separadamente.
+- Antes de commitar, avalie se as alterações staged pertencem ao mesmo contexto lógico. Caso contrário, separe-as em commits distintos (`git add -p` pode ajudar nesse controle granular).
+- Mensagens de commit devem refletir claramente o **"porquê"** da mudança, não apenas o **"o quê"**.
 
 ## Variáveis de ambiente
 
@@ -41,6 +56,7 @@ npm run firebase:verify # marca o e-mail do admin como verificado (uma única ve
 - **Proteção do admin**: `app/middleware/admin.ts` redireciona para `/admin/login` quem não está logado (defense-in-depth; o servidor continua sendo a autoridade via `requireAdmin`). Requests autenticados usam `app/composables/useAdminFetch.ts` (renova o ID token via `getIdToken()` a cada request e injeta `Authorization: Bearer`). O guard do layout `admin.vue` permanece como fallback.
 - Conteúdo dos artigos é **HTML** produzido pelo editor **TipTap** (`app/components/admin/ArticleEditor.vue`, WYSIWYG, extensões StarterKit + Link + Image; imagens inline fazem upload para `artigos/inline/*` e também aceita colar Ctrl+V) e sanitizado no servidor com `sanitize-html` (`server/utils/sanitize.ts`, whitelist de tags; imagens inline `img` com `src/alt`; links `target="_blank"` ganham `rel="noopener noreferrer"`). Renderizado com `v-html` em `app/pages/artigos/[slug].vue` (lint desabilitado pontualmente). Validação do `conteudo` em `server/utils/validate.ts` conta texto ignorando tags.
 - **Auto-import de componentes**: `admin/ArticleEditor.vue` é registrado como `AdminArticleEditor` (prefixo do diretório) — as páginas `app/pages/admin/editor*.vue` usam `<AdminArticleEditor />`. Usar o nome errado (`<ArticleEditor />`) faz o template cair em `resolveComponent` e o componente **não entra no bundle** (bug silencioso já encontrado uma vez).
+- **Auto-import de composables**: todo export de `app/composables/*.ts` é auto-importado (inclusive sem prefixo `use`, ex.: `uploadCapa`, `resizeImage`). Após criar um **novo** arquivo em `app/composables/`, o `.nuxt/imports.d.ts` fica desatualizado e o editor acusa "Cannot find name 'X'" (o build passa, pois o unimport resolve em memória) — rodar `npx nuxt prepare` (ou dar restart no dev server) para regenerar os tipos.
 - **Máscara de telefone** no formulário (`ContactForm.vue`): formatação progressiva `(00) 00000-0000` via `@input` (troca o `v-model` por `:value` + handler). Ao editar, só mexa ali.
 - Formulário de contato tem rate-limit em memória (Map por IP) — reseta entre instâncias serverless.
 - **`AppIcon.vue`**: o componente aplica a classe recebida via `:class="props.class ?? 'size-5'"`. Sempre passar um `size-N` (ex.: `size-4`, `size-5`) em `<AppIcon class="...">`; sem classe, o default é `size-5`. Um bug antigo (já corrigido) declarava `class` como prop sem usá-la, o que engolia todas as classes passadas — a lupa da busca ficava acima do input.
