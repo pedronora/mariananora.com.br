@@ -25,6 +25,7 @@ function formatDate(iso?: string) {
         :src="capa"
         :alt="titulo"
         :fallback="'/img/retrato.jpg'"
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
       />
       <div v-else class="grid h-full place-items-center text-brand-300">

@@ -373,7 +373,7 @@ async function save() {
             >
               <AppIcon name="plus" class="size-6" />
               {{ uploading ? 'Enviando...' : 'Clique para enviar' }}
-              <span class="text-xs">JPG/PNG/WebP até 5 MB</span>
+              <span class="text-xs">JPG/PNG/WebP até 5 MB (redimensionada automaticamente)</span>
               <input id="ed-capa" type="file" accept="image/*" class="hidden" @change="onCapaChange" />
             </label>
             <NuxtImg

@@ -43,7 +43,12 @@ function formatDate(iso: string) {
     </header>
 
     <div v-if="artigo.capa" class="mx-auto mt-8 max-w-3xl">
-      <NuxtImg :src="artigo.capa" :alt="artigo.titulo" class="aspect-[16/9] w-full rounded-3xl object-cover" />
+      <NuxtImg
+        :src="artigo.capa"
+        :alt="artigo.titulo"
+        sizes="(max-width: 768px) 100vw, 768px"
+        class="aspect-[16/9] w-full rounded-3xl object-cover"
+      />
     </div>
 
     <!-- eslint-disable-next-line vue/no-v-html -->

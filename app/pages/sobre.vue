@@ -22,6 +22,7 @@ useSeoMeta({
         <NuxtImg
           src="/img/retrato.jpg"
           alt="Psicóloga Mariana Nora"
+          sizes="(max-width: 1024px) 100vw, 50vw"
           class="aspect-[4/3] w-full rounded-3xl object-cover shadow-lg"
         />
       </div>
