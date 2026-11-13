@@ -39,9 +39,31 @@ export function useAuth() {
       token.value = ''
       await signOut(auth)
     }
+    const requestPasswordReset = async (email: string) => {
+      await $fetch('/api/auth/recuperar-senha', { method: 'POST', body: { email } })
+    }
+    const resetPassword = async (resetToken: string, password: string) => {
+      await $fetch('/api/auth/redefinir-senha', { method: 'POST', body: { token: resetToken, password } })
+    }
 
-    return { user, loading, token, login, logout }
+    return {
+      user,
+      loading,
+      token,
+      login,
+      logout,
+      requestPasswordReset,
+      resetPassword,
+    }
   }
 
-  return { user, loading, token, login: async () => {}, logout: async () => {} }
+  return {
+    user,
+    loading,
+    token,
+    login: async () => {},
+    logout: async () => {},
+    requestPasswordReset: async () => {},
+    resetPassword: async () => {},
+  }
 }

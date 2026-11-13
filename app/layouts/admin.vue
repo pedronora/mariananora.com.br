@@ -3,9 +3,12 @@ const { user, loading, logout } = useAuth()
 const route = useRoute()
 const router = useRouter()
 
+// Rotas acessíveis sem sessão: login e o fluxo de recuperação de senha.
+const PUBLIC_ROUTES = ['/admin/login', '/admin/esqueci-senha', '/admin/redefinir-senha']
+
 watchEffect(() => {
   if (import.meta.client && !loading.value) {
-    if (!user.value && route.path !== '/admin/login') {
+    if (!user.value && !PUBLIC_ROUTES.includes(route.path)) {
       router.push('/admin/login')
     } else if (user.value && route.path === '/admin/login') {
       router.push('/admin')
