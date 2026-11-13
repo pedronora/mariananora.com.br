@@ -117,3 +117,57 @@ export async function sendContactEmail(lead: Lead) {
     html: contactEmailTemplate(lead),
   })
 }
+
+export function passwordResetEmailTemplate(url: string): string {
+  const safeUrl = escapeHtml(url)
+  return `
+  <!DOCTYPE html>
+  <html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Redefinição de senha</title>
+  </head>
+  <body style="margin:0;padding:0;background:#f6f4f1;font-family:Arial,Helvetica,sans-serif;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f6f4f1;padding:24px 12px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(34,27,21,0.08);">
+            <tr>
+              <td style="background:#10866f;padding:28px 32px;">
+                <p style="margin:0;font-size:22px;font-weight:bold;color:#ffffff;">Psicóloga Mariana Nora</p>
+                <p style="margin:6px 0 0;font-size:13px;color:#d7ece0;">Redefinição de senha da área administrativa</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:28px 32px;">
+                <p style="margin:0 0 16px;font-size:15px;color:#3f342b;line-height:1.6;">Recebemos um pedido para redefinir a senha de acesso à área administrativa do site.</p>
+                <p style="margin:0 0 24px;font-size:15px;color:#3f342b;line-height:1.6;">Clique no botão abaixo para cadastrar uma nova senha:</p>
+                <a href="${safeUrl}" style="display:inline-block;background:#10866f;color:#ffffff;text-decoration:none;font-weight:bold;font-size:14px;padding:12px 24px;border-radius:999px;">Definir nova senha</a>
+                <p style="margin:24px 0 0;font-size:13px;color:#5c4839;line-height:1.6;">Este link expira em <strong>5 minutos</strong> e só pode ser usado uma vez.</p>
+                <p style="margin:12px 0 0;font-size:13px;color:#5c4839;line-height:1.6;">Se você não solicitou a redefinição, ignore este e-mail. Sua senha atual continua válida.</p>
+                <p style="margin:24px 0 0;font-size:12px;color:#8a6f55;line-height:1.6;word-break:break-all;">Se o botão não funcionar, copie e cole este endereço no navegador:<br><a href="${safeUrl}" style="color:#0e6a58;">${safeUrl}</a></p>
+              </td>
+            </tr>
+            <tr>
+              <td style="background:#3f342b;padding:20px 32px;text-align:center;">
+                <p style="margin:0;font-size:12px;color:#d3c6b9;">www.mariananora.com.br · ${site.crp} · Florianópolis/SC</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+  </html>`
+}
+
+export async function sendPasswordResetEmail({ to, url }: { to: string; url: string }) {
+  const runtime = useRuntimeConfig()
+  await getTransporter().sendMail({
+    from: `"${site.name}" <${runtime.smtpUser}>`,
+    to,
+    subject: 'Redefinição de senha — Área administrativa',
+    html: passwordResetEmailTemplate(url),
+  })
+}

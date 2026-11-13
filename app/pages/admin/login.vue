@@ -69,6 +69,11 @@ async function submit() {
             </button>
           </div>
         </div>
+        <div class="text-right">
+          <NuxtLink to="/admin/esqueci-senha" class="text-sm text-accent-700 hover:underline">
+            Esqueci minha senha
+          </NuxtLink>
+        </div>
         <button type="submit" class="btn-primary w-full" :disabled="loading">
           {{ loading ? 'Entrando...' : 'Entrar' }}
         </button>
