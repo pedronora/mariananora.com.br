@@ -1,4 +1,13 @@
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, type User } from 'firebase/auth'
+import {
+  EmailAuthProvider,
+  getAuth,
+  onAuthStateChanged,
+  reauthenticateWithCredential,
+  signInWithEmailAndPassword,
+  signOut,
+  updatePassword,
+  type User,
+} from 'firebase/auth'
 
 const user = ref<User | null>(null)
 const loading = ref(true)
@@ -39,6 +48,19 @@ export function useAuth() {
       token.value = ''
       await signOut(auth)
     }
+    /**
+     * Reautentica com a senha atual antes de trocar a senha: o Firebase exige
+     * login recente e, sem isso, `updatePassword` falha com `auth/requires-recent-login`.
+     */
+    const changePassword = async (currentPassword: string, newPassword: string) => {
+      const current = auth.currentUser
+      if (!current?.email) {
+        throw new Error('Sessão inválida. Entre novamente.')
+      }
+      const credential = EmailAuthProvider.credential(current.email, currentPassword)
+      await reauthenticateWithCredential(current, credential)
+      await updatePassword(current, newPassword)
+    }
     const requestPasswordReset = async (email: string) => {
       await $fetch('/api/auth/recuperar-senha', { method: 'POST', body: { email } })
     }
@@ -52,6 +74,7 @@ export function useAuth() {
       token,
       login,
       logout,
+      changePassword,
       requestPasswordReset,
       resetPassword,
     }
@@ -63,6 +86,7 @@ export function useAuth() {
     token,
     login: async () => {},
     logout: async () => {},
+    changePassword: async () => {},
     requestPasswordReset: async () => {},
     resetPassword: async () => {},
   }

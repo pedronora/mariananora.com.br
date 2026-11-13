@@ -23,6 +23,13 @@ watchEffect(() => {
       <div class="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
         <NuxtLink to="/admin" class="font-semibold text-brand-900">Área administrativa</NuxtLink>
         <div class="flex items-center gap-3">
+          <NuxtLink
+            v-if="user"
+            to="/admin/conta"
+            class="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm text-brand-600 hover:bg-brand-100"
+          >
+            <AppIcon name="user" class="size-4" /> Conta
+          </NuxtLink>
           <NuxtLink to="/" class="text-sm text-brand-500 hover:text-accent-700">Ver site</NuxtLink>
           <button
             v-if="user"
